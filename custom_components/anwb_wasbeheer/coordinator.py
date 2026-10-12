@@ -74,8 +74,12 @@ class AnwbWasbeheerCoordinator(DataUpdateCoordinator[list[dict[str, Any]]]):
                 }
             )
 
-        if len(rows) < 24:
-            raise UpdateFailed(f"ANWB stuurde slechts {len(rows)} bruikbare uurprijzen")
+        # ANWB publishes prices gradually. Near the end of the published
+        # window there can legitimately be fewer than 24 hours available.
+        # Keep those exact hours available; later dashboard slots remain
+        # visibly unknown until ANWB publishes them.
+        if not rows:
+            raise UpdateFailed("ANWB stuurde geen bruikbare uurprijzen")
 
         self.forecast_start = datetime.fromisoformat(rows[0]["start"])
         self.forecast_end = datetime.fromisoformat(rows[-1]["end"])
