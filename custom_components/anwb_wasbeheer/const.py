@@ -7,4 +7,5 @@ DOMAIN: Final = "anwb_wasbeheer"
 PLATFORMS: Final = ["sensor"]
 UPDATE_INTERVAL: Final = timedelta(minutes=60)
 FORECAST_HOURS: Final = 72
-API_URL: Final = "https://api.anwb.nl/energy/energy-services/v2/tarieven/electricity"
+API_URL_BASE: Final = "https://api.anwb.nl/energy/energy-services/v2/tarieven"
+ENERGY_TYPES: Final = ("electricity", "gas")
